@@ -14,17 +14,17 @@ const journalEntries = [
     title: "The Dopamine Transfer Deficit: Why Traditional Planners Freeze ADHD Brains",
     excerpt:
       "When dopamine anticipatory signals don't fire predictably, standard to-do lists trigger cognitive paralysis. Here's what neuroscience says about the gap between intention and action.",
-    date: "Coming with Episode 1",
+    date: "Alpha Beta Release",
     readTime: "4 min read",
     tag: "Neuroscience",
     featured: true,
   },
   {
     slug: "zero-activation-energy",
-    title: "Building Loah Ep 01: The Zero Activation Energy Architecture",
+    title: "Building LOAH: The Zero Activation Energy Architecture",
     excerpt:
       "If opening an app requires more than 1 tap and 3 seconds of working memory, the ADHD brain will abandon it by Day 3. Inside our design principles for radical simplicity.",
-    date: "Doc Series Ep. 1",
+    date: "Build Log 01",
     readTime: "6 min read",
     tag: "Behind The Build",
     featured: false,
@@ -70,7 +70,7 @@ export default function JournalPage() {
             </span>
           </h1>
           <p className="font-body text-[#94A3B8] text-base sm:text-lg max-w-2xl leading-relaxed">
-            Raw research on ADHD neurobiology, dopamine transfer, and engineering logs from our weekly build documentary.
+            Raw research on ADHD neurobiology, dopamine transfer, and engineering notes behind LOAH.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export default function JournalPage() {
               </p>
 
               <div className="flex items-center gap-1.5 text-sm font-semibold text-[#10B981] group-hover:underline underline-offset-4">
-                <span>Reading release notes with Episode 1</span>
+                <span>Reading notes coming with beta testing link</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
             </article>
@@ -118,10 +118,10 @@ export default function JournalPage() {
             <Sparkles className="w-5 h-5" />
           </div>
           <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#F8FAFC]">
-            Want early access before Episode 1 airs?
+            Want early testing access?
           </h3>
           <p className="font-body text-sm text-[#94A3B8] max-w-md mx-auto">
-            Join the waitlist to receive private beta builds and behind-the-scenes research notes.
+            Join early finders to receive your private testing application link and research updates.
           </p>
           <div className="pt-2">
             <Link
@@ -136,7 +136,7 @@ export default function JournalPage() {
 
       {/* Footer */}
       <footer className="w-full py-6 px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#94A3B8]/70 border-t border-white/[0.04] mt-16 gap-3">
-        <span>© {new Date().getFullYear()} loah • Built for ADHD minds</span>
+        <span>© {new Date().getFullYear()} LOAH • Built for ADHD minds</span>
         <Link href="/" className="hover:text-[#F8FAFC] transition-colors">
           Return to Waitlist
         </Link>

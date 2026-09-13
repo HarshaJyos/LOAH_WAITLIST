@@ -80,10 +80,10 @@ export function WaitlistForm() {
               <Sparkles className="w-3.5 h-3.5" /> Early Access Confirmed
             </div>
             <h3 className="text-xl sm:text-2xl font-heading font-bold text-[#F8FAFC]">
-              {isAlreadyRegistered ? "You're already on the list!" : "You’re on the list."}
+              {isAlreadyRegistered ? "You're already on the list!" : "Welcome to early finders!"}
             </h3>
             <p className="text-[#94A3B8] text-sm sm:text-base font-body max-w-md">
-              Episode 1 of our build documentary drops soon. We’ll notify <span className="text-[#F8FAFC] font-medium">{email}</span> the moment it’s ready.
+              You will receive an email at <span className="text-[#F8FAFC] font-medium">{email}</span> containing the testing application link soon.
             </p>
           </div>
 
@@ -170,7 +170,7 @@ export function WaitlistForm() {
         <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-[#94A3B8] font-body text-center pt-1">
           <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
           <span>
-            <strong className="font-medium text-[#F8FAFC]">100% free</strong> during open development. Watch us build it live week-by-week.
+            <strong className="font-medium text-[#F8FAFC]">100% free</strong> during open testing. You’ll receive early access directly in your inbox.
           </span>
         </div>
       </form>

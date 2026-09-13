@@ -56,7 +56,7 @@ export default function Home() {
             Read Our Journals
           </Link>
           <span>•</span>
-          <span className="text-[#94A3B8]/60">Doc Episode 1 dropping soon</span>
+          <span className="text-[#94A3B8]/60">Testing app links rolling out soon</span>
         </div>
       </footer>
     </div>
