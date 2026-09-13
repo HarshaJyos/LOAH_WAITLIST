@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // =========================================================================
+    // LOAH PRODUCTION FIRESTORE RULES — ZERO DATA LEAKAGE
+    // =========================================================================
+    
+    match /waitlist/{docId} {
+      // 1. BLOCK ALL LISTING & SCRAPING
+      // Prevents anyone from querying or downloading all emails in the database
+      allow list: if false;
+
+      // 2. ALLOW EXACT SINGLE-DOCUMENT LOOKUP
+      // Only permits looking up a specific document if the exact SHA-256 hash ID is known
+      allow get: if true;
+
+      // 3. STRICT SCHEMA ENFORCEMENT ON WRITE
+      // Validates allowed keys and bounds to prevent malicious injections
+      allow create, update: if 
+        request.resource.data.keys().hasOnly(['email', 'createdAt', 'status', 'source', 'ipHash', 'userAgent']) &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() >= 5 &&
+        request.resource.data.email.size() <= 254 &&
+        request.resource.data.status == 'pending_invite';
+
+      // 4. DISALLOW DIRECT DELETIONS
+      allow delete: if false;
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
