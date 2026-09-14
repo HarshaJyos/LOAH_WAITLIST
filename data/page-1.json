@@ -1,0 +1,67 @@
+{
+  "page": 1,
+  "totalPages": 2,
+  "totalPosts": 6,
+  "posts": [
+    {
+      "id": "post-001",
+      "slug": "dopamine-transfer-deficit",
+      "title": "The Dopamine Transfer Deficit: Why Traditional Planners Freeze ADHD Brains",
+      "excerpt": "When dopamine anticipatory signals don't fire predictably, standard to-do lists trigger cognitive paralysis. Here is what neuroscience says about the gap between intention and action.",
+      "category": "Neuroscience",
+      "type": "Alpha Beta Release",
+      "author": {
+        "name": "Dr. Aris Thorne",
+        "role": "Neuroscience Lead at LOAH",
+        "avatar": "/avatars/aris.jpg",
+        "bio": "Cognitive neuroscientist researching executive dysfunction and anticipatory dopamine signaling in adult ADHD."
+      },
+      "publishedAt": "Sep 14, 2026",
+      "isoDate": "2026-09-14T00:00:00Z",
+      "readTime": "4 min read",
+      "tags": ["Dopamine", "Neuroscience", "Task Paralysis", "Executive Function"],
+      "featured": true,
+      "image": "/images/journals/dopamine-deficit.svg"
+    },
+    {
+      "id": "post-002",
+      "slug": "zero-activation-energy-architecture",
+      "title": "Building LOAH: The Zero Activation Energy Architecture",
+      "excerpt": "If opening an app requires more than 1 tap and 3 seconds of working memory, the ADHD brain will abandon it by Day 3. Inside our design principles for radical simplicity.",
+      "category": "Engineering",
+      "type": "Build Log 01",
+      "author": {
+        "name": "Kiran Vance",
+        "role": "Founding Engineer",
+        "avatar": "/avatars/kiran.jpg",
+        "bio": "Systems architect diagnosed with ADHD in adulthood. Obsessed with reducing UI initiation friction."
+      },
+      "publishedAt": "Sep 12, 2026",
+      "isoDate": "2026-09-12T00:00:00Z",
+      "readTime": "6 min read",
+      "tags": ["Architecture", "Build Log", "Zero Activation", "UX Design"],
+      "featured": false,
+      "image": "/images/journals/zero-activation.svg"
+    },
+    {
+      "id": "post-003",
+      "slug": "why-calendars-fail",
+      "title": "Time Blindness vs. Time Blocking: Why Strict Schedules Cause Shame Spirals",
+      "excerpt": "Calendar-blocking works for neurotypical brains because their sense of future time is continuous. For ADHD brains, time is binary: 'Now' or 'Not Now.'",
+      "category": "ADHD Insights",
+      "type": "Deep Dive",
+      "author": {
+        "name": "Maya Lin",
+        "role": "Product & Community Lead",
+        "avatar": "/avatars/maya.jpg",
+        "bio": "Product strategist living with combined-type ADHD, exploring gentle productivity systems."
+      },
+      "publishedAt": "Sep 10, 2026",
+      "isoDate": "2026-09-10T00:00:00Z",
+      "readTime": "5 min read",
+      "tags": ["Time Blindness", "Time Blocking", "Shame Spirals", "Productivity"],
+      "featured": false,
+      "image": "/images/journals/time-blindness.svg"
+    }
+  ]
+}
