@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
 import { Zap, Heart, Shield, Terminal } from "lucide-react";
@@ -40,25 +41,8 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Micro-Footer for Single Viewport Grounding */}
-      <footer className="w-full py-4 px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#94A3B8]/80 border-t border-white/[0.04] z-10 gap-2">
-        <div className="flex items-center gap-2">
-          <span>© {new Date().getFullYear()} LOAH</span>
-          <span>•</span>
-          <span className="text-[#94A3B8]">Built by founders who live with ADHD</span>
-        </div>
-
-        <div className="flex items-center gap-4 text-xs">
-          <Link
-            href="/journal"
-            className="hover:text-[#F8FAFC] transition-colors underline-offset-4 hover:underline"
-          >
-            Read Our Journals
-          </Link>
-          <span>•</span>
-          <span className="text-[#94A3B8]/60">Testing app links rolling out soon</span>
-        </div>
-      </footer>
+      {/* Unified Micro-Footer */}
+      <Footer />
     </div>
   );
 }

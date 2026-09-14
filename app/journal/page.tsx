@@ -3,7 +3,9 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
+import { WaitlistForm } from "@/components/WaitlistForm";
 import { JournalCard } from "@/components/journal/JournalCard";
 import { JournalPagination } from "@/components/journal/JournalPagination";
 import {
@@ -286,35 +288,27 @@ export default function JournalPage() {
           />
         )}
 
-        {/* Early Access CTA Box */}
-        <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-4 shadow-2xl">
+        {/* Early Access Waitlist Form */}
+        <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-6 shadow-2xl">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#10B981]/15 text-[#10B981] mx-auto">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="font-heading font-bold text-2xl sm:text-3xl text-[#F8FAFC]">
-            Join Early Finders for LOAH
-          </h3>
-          <p className="font-body text-sm sm:text-base text-[#94A3B8] max-w-md mx-auto leading-relaxed">
-            Receive private testing links, neuroscience teardowns, and development updates directly in your inbox.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-[#10B981] hover:bg-[#059669] text-[#022C22] font-heading font-bold text-sm tracking-tight transition-all shadow-[0_0_25px_-5px_rgba(16,185,129,0.4)]"
-            >
-              Join Early Access Waitlist
-            </Link>
+          <div className="space-y-2">
+            <h3 className="font-heading font-bold text-2xl sm:text-3xl text-[#F8FAFC]">
+              Join Early Finders for LOAH
+            </h3>
+            <p className="font-body text-sm sm:text-base text-[#94A3B8] max-w-md mx-auto leading-relaxed">
+              Receive private testing application links and neuroscience teardowns directly in your inbox.
+            </p>
+          </div>
+          <div className="w-full pt-1">
+            <WaitlistForm />
           </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-6 px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#94A3B8]/70 border-t border-white/[0.04] mt-16 gap-3">
-        <span>© {new Date().getFullYear()} LOAH • Built for ADHD minds</span>
-        <Link href="/" className="hover:text-[#F8FAFC] transition-colors">
-          Return to Waitlist
-        </Link>
-      </footer>
+      {/* Unified Footer */}
+      <Footer />
     </div>
   );
 }
