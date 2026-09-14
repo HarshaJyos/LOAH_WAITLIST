@@ -20,6 +20,8 @@ export interface JournalPostMeta {
   tags: string[];
   featured?: boolean;
   image?: string;
+  faqs?: Array<{ question: string; answer: string }>;
+  relatedSlugs?: string[];
 }
 
 export interface JournalManifest {

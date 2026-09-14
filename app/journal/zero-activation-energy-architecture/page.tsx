@@ -14,6 +14,8 @@ import {
   JournalTakeaways,
   JournalDivider,
   JournalLink,
+  JournalFaq,
+  JournalRelated,
 } from "@/components/journal/JournalComponents";
 import { JournalPostMeta } from "@/types/journal";
 
@@ -36,6 +38,23 @@ export const postMeta: JournalPostMeta = {
   readTime: "6 min read",
   tags: ["Architecture", "Build Log", "Zero Activation", "UX Design"],
   featured: false,
+  faqs: [
+    {
+      question: "What does 'Zero Activation Energy' mean in software design?",
+      answer:
+        "It means reducing the cognitive and physical friction of performing an action to near zero—specifically under 1 tap and 3 seconds, eliminating decision points like tags, folders, or due dates before input.",
+    },
+    {
+      question: "How does LOAH prevent data loss if a thought is externalized mid-task?",
+      answer:
+        "LOAH uses an optimistic local-first IndexedDB buffer that locks your keystrokes within 5ms, independent of network status, and restores your exact session without prompting 'Save'.",
+    },
+    {
+      question: "Why does LOAH avoid traditional folder structures?",
+      answer:
+        "Folder trees require categorical decision-making that exhausts executive function. LOAH uses single-stream ingestion with background context clustering.",
+    },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -55,6 +74,7 @@ const tableOfContents = [
   { id: "core-engineering-tenets", text: "Core Engineering Tenets of LOAH" },
   { id: "optimistic-zero-friction-pipeline", text: "The Optimistic Zero-Friction Pipeline" },
   { id: "anti-shame-schema-design", text: "Anti-Shame Schema Design" },
+  { id: "faq", text: "Frequently Asked Questions" },
 ];
 
 export default function ZeroActivationArchitecturePage() {
@@ -175,6 +195,16 @@ export async function captureRawThought(rawText: string): Promise<TaskNode> {
             "Local-first optimistic UI ensures writing is never blocked by network latency.",
             "Anti-shame data schemas prevent overdue counters from causing guilt spirals.",
           ]}
+        />
+
+        {/* FAQ Section */}
+        <JournalFaq items={postMeta.faqs || []} />
+
+        {/* Related Journals Component */}
+        <JournalRelated
+          currentSlug={postMeta.slug}
+          category={postMeta.category}
+          relatedSlugs={["dopamine-transfer-deficit", "working-memory-externalization"]}
         />
       </JournalLayout>
     </>

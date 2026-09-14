@@ -1,14 +1,17 @@
 import { JournalPostMeta } from "@/types/journal";
+import { FaqItem } from "./JournalFaq";
 
 interface JournalJsonLdProps {
   post: JournalPostMeta;
+  faqs?: Array<{ question: string; answer: string }>;
   url?: string;
 }
 
-export function JournalJsonLd({ post, url }: JournalJsonLdProps) {
+export function JournalJsonLd({ post, faqs, url }: JournalJsonLdProps) {
   const postUrl = url || `https://loah.app/journal/${post.slug}`;
+  const activeFaqs = faqs || post.faqs;
 
-  const jsonLd = {
+  const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "mainEntityOfPage": {
@@ -42,10 +45,29 @@ export function JournalJsonLd({ post, url }: JournalJsonLdProps) {
     },
   };
 
+  const schemas: any[] = [blogPostingSchema];
+
+  if (activeFaqs && activeFaqs.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": activeFaqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": typeof faq.answer === "string" ? faq.answer : faq.question,
+        },
+      })),
+    });
+  }
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schemas.length === 1 ? schemas[0] : schemas),
+      }}
     />
   );
 }

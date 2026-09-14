@@ -14,6 +14,8 @@ import {
   JournalTakeaways,
   JournalDivider,
   JournalLink,
+  JournalFaq,
+  JournalRelated,
 } from "@/components/journal/JournalComponents";
 import { JournalPostMeta } from "@/types/journal";
 
@@ -36,6 +38,23 @@ export const postMeta: JournalPostMeta = {
   readTime: "4 min read",
   tags: ["Dopamine", "Neuroscience", "Task Paralysis", "Executive Function"],
   featured: true,
+  faqs: [
+    {
+      question: "Why does task initiation feel physically exhausting with ADHD?",
+      answer:
+        "Because ADHD brains experience delayed anticipatory dopamine transfer. Without predictive dopamine firing upon seeing a cue, the brain perceives initiation as an energy deficit, triggering task paralysis.",
+    },
+    {
+      question: "How is the Dopamine Transfer Deficit different from lack of discipline?",
+      answer:
+        "Discipline relies on voluntary prefrontal control supported by baseline tonic dopamine. In ADHD, cellular reinforcement mechanics are altered, meaning guilt or willpower cannot compensate for missing neurochemical signals.",
+    },
+    {
+      question: "How does LOAH bypass the Dopamine Transfer Deficit?",
+      answer:
+        "LOAH replaces long-term planning rituals with zero-friction capture, sub-5-minute atomic momentum actions, and an anti-shame design that never uses red overdue counters.",
+    },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -55,6 +74,7 @@ const tableOfContents = [
   { id: "what-is-the-dopamine-transfer-deficit", text: "What is the Dopamine Transfer Deficit?" },
   { id: "the-failure-loop-of-traditional-planners", text: "The Failure Loop of Traditional Planners" },
   { id: "how-loah-engineers-around-the-gap", text: "How LOAH Engineers Around The Gap" },
+  { id: "faq", text: "Frequently Asked Questions" },
 ];
 
 export default function DopamineTransferDeficitPage() {
@@ -195,12 +215,15 @@ export default function DopamineTransferDeficitPage() {
           ]}
         />
 
-        <P className="mt-8 text-sm text-[#94A3B8]">
-          Curious about our engineering architecture? Read our next journal:{" "}
-          <JournalLink href="/journal/zero-activation-energy-architecture">
-            Building LOAH: The Zero Activation Energy Architecture →
-          </JournalLink>
-        </P>
+        {/* FAQ Section */}
+        <JournalFaq items={postMeta.faqs || []} />
+
+        {/* Related Journals Component */}
+        <JournalRelated
+          currentSlug={postMeta.slug}
+          category={postMeta.category}
+          relatedSlugs={["zero-activation-energy-architecture", "working-memory-externalization"]}
+        />
       </JournalLayout>
     </>
   );

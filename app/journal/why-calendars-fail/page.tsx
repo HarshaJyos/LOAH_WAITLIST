@@ -14,6 +14,8 @@ import {
   JournalTakeaways,
   JournalDivider,
   JournalLink,
+  JournalFaq,
+  JournalRelated,
 } from "@/components/journal/JournalComponents";
 import { JournalPostMeta } from "@/types/journal";
 
@@ -36,6 +38,23 @@ export const postMeta: JournalPostMeta = {
   readTime: "5 min read",
   tags: ["Time Blindness", "Time Blocking", "Shame Spirals", "Productivity"],
   featured: false,
+  faqs: [
+    {
+      question: "What is time blindness in ADHD?",
+      answer:
+        "Time blindness is an impairment in the prefrontal cortex's temporal pacing mechanism, causing individuals to perceive time primarily as binary: 'Now' (immediate presence) or 'Not Now' (fictional/abstract future).",
+    },
+    {
+      question: "Why does time blocking trigger shame spirals?",
+      answer:
+        "When an ADHD person gets delayed or transitions slowly, missing a single calendar block causes an entire schedule to collapse, triggering feelings of inadequacy and total abandonment of the tool.",
+    },
+    {
+      question: "What is Energy-First organizing in LOAH?",
+      answer:
+        "Instead of forcing tasks into strict hourly calendar blocks, LOAH categorizes actions by cognitive state (High Focus, Low Energy, Hyperactive Chaos) so you match tasks to your dopamine level in the moment.",
+    },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -55,6 +74,7 @@ const tableOfContents = [
   { id: "the-neurobiology-of-time-blindness", text: "The Neurobiology of Time Blindness" },
   { id: "the-domino-collapse-of-time-blocking", text: "The Domino Collapse of Time Blocking" },
   { id: "the-energy-first-alternative", text: "The Energy-First Alternative" },
+  { id: "faq", text: "Frequently Asked Questions" },
 ];
 
 export default function WhyCalendarsFailPage() {
@@ -157,6 +177,16 @@ export default function WhyCalendarsFailPage() {
             "Time blindness separates life into 'Now' and 'Not Now'—future blocks feel unreal until they become emergencies.",
             "Energy-based routing matches tasks to your current dopamine state rather than the clock.",
           ]}
+        />
+
+        {/* FAQ Section */}
+        <JournalFaq items={postMeta.faqs || []} />
+
+        {/* Related Journals Component */}
+        <JournalRelated
+          currentSlug={postMeta.slug}
+          category={postMeta.category}
+          relatedSlugs={["dopamine-transfer-deficit", "the-three-day-abandonment-cycle"]}
         />
       </JournalLayout>
     </>

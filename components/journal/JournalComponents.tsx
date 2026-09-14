@@ -558,3 +558,8 @@ export function JournalDivider({ className }: { className?: string }) {
     </div>
   );
 }
+
+// Re-export FAQ and Related components for unified editorial imports
+export { JournalFaq } from "./JournalFaq";
+export { JournalRelated } from "./JournalRelated";
+export { JournalJsonLd } from "./JournalJsonLd";
