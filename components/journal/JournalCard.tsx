@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { JournalPostMeta } from "@/types/journal";
-import { Clock, Calendar, ArrowRight, User, Sparkles } from "lucide-react";
+import { Clock, Calendar, Sparkles } from "lucide-react";
 
 export function JournalCard({ post }: { post: JournalPostMeta }) {
   return (
@@ -42,8 +43,19 @@ export function JournalCard({ post }: { post: JournalPostMeta }) {
       <div className="pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#94A3B8]">
         {/* Author */}
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-[#1E293B] border border-white/10 flex items-center justify-center text-[#10B981] text-xs font-bold uppercase">
-            {post.author.name.charAt(0)}
+          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 shrink-0 bg-[#1E293B]">
+            {post.author.avatar ? (
+              <Image
+                src={post.author.avatar}
+                alt={post.author.name}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-[#10B981] text-xs font-bold uppercase">
+                {post.author.name.charAt(0)}
+              </div>
+            )}
           </div>
           <div>
             <p className="text-[#F8FAFC] font-medium leading-none mb-0.5">{post.author.name}</p>

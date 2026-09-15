@@ -1,0 +1,264 @@
+import React from "react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { SensoryBackdrop } from "@/components/SensoryBackdrop";
+import { WaitlistForm } from "@/components/WaitlistForm";
+import { getTeamMember, getAllTeamMembers } from "@/lib/team-data";
+import { getAllJournalPosts } from "@/lib/journal-data";
+import {
+  ArrowLeft,
+  BookOpen,
+  Sparkles,
+  MapPin,
+  Clock,
+  Calendar,
+  ArrowRight,
+  User,
+  HeartHandshake,
+} from "lucide-react";
+
+export function generateStaticParams() {
+  const members = getAllTeamMembers();
+  return members.map((member) => ({
+    slug: member.slug,
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const member = getTeamMember(slug);
+  if (!member) return { title: "Team Member Not Found" };
+
+  return {
+    title: `${member.name} — ${member.role} | LOAH Team`,
+    description: member.shortBio,
+    openGraph: {
+      title: `${member.name} — LOAH`,
+      description: member.shortBio,
+      images: [member.avatar],
+    },
+  };
+}
+
+export default async function TeamMemberPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const member = getTeamMember(slug);
+
+  if (!member) {
+    notFound();
+  }
+
+  // Get articles written by this team member
+  const allPosts = getAllJournalPosts();
+  const authorPosts = allPosts.filter(
+    (post) =>
+      post.author.name.toLowerCase() === member.name.toLowerCase() ||
+      post.author.avatar.includes(member.slug.split("-")[0])
+  );
+
+  return (
+    <div className="min-h-screen w-full flex flex-col bg-[#0B0F17] text-[#F8FAFC] relative selection:bg-[#10B981]/20 selection:text-[#10B981]">
+      <SensoryBackdrop />
+      <Header />
+
+      <main className="flex-1 max-w-4xl mx-auto w-full px-5 sm:px-8 py-8 sm:py-12">
+        {/* Navigation Bar */}
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <Link
+            href="/journal"
+            className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-[#10B981] transition-colors group"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>Back to Journal</span>
+          </Link>
+
+          <Link
+            href="/team"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161F2E] border border-white/10 text-xs font-medium text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/20 transition-all"
+          >
+            <User className="w-3.5 h-3.5" />
+            <span>LOAH Team</span>
+          </Link>
+        </div>
+
+        {/* Profile Card */}
+        <section className="p-6 sm:p-10 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 shadow-2xl relative overflow-hidden mb-10">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#10B981]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 relative z-10">
+            {/* High-res Avatar with Glow */}
+            <div className="relative shrink-0">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#10B981]/50 shadow-[0_0_25px_rgba(16,185,129,0.2)] bg-[#161F2E] relative">
+                <Image
+                  src={member.avatar}
+                  alt={member.name}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-[#10B981] text-[#022C22] text-[10px] font-bold uppercase tracking-wider shadow-md">
+                Team
+              </div>
+            </div>
+
+            {/* Header Details */}
+            <div className="space-y-3 text-center sm:text-left flex-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{member.role}</span>
+              </div>
+
+              <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#F8FAFC] tracking-tight">
+                {member.name}
+              </h1>
+
+              <p className="font-body text-base sm:text-lg text-[#CBD5E1] leading-relaxed">
+                {member.shortBio}
+              </p>
+
+              {member.location && (
+                <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-[#94A3B8] pt-1">
+                  <MapPin className="w-3.5 h-3.5 text-[#10B981]" />
+                  <span>{member.location}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Story / About Section */}
+        <section className="space-y-6 mb-12">
+          <div className="space-y-2">
+            <h2 className="font-heading font-bold text-2xl text-[#F8FAFC] tracking-tight">
+              About &amp; Perspective
+            </h2>
+            <div className="h-0.5 w-12 bg-[#10B981] rounded-full" />
+          </div>
+
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#161F2E]/60 border border-white/10 space-y-4 font-body text-[#CBD5E1] text-base leading-[1.75]">
+            {member.story.map((paragraph, idx) => (
+              <p key={idx}>{paragraph}</p>
+            ))}
+          </div>
+
+          {/* Focus Areas */}
+          {member.focusAreas && member.focusAreas.length > 0 && (
+            <div className="space-y-3 pt-2">
+              <h3 className="font-heading font-semibold text-sm text-[#94A3B8] uppercase tracking-wider">
+                Focus Areas at LOAH
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {member.focusAreas.map((area, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3.5 py-1.5 rounded-xl bg-[#161F2E] border border-white/10 text-xs sm:text-sm text-[#F8FAFC] font-medium"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Written Journals by Member */}
+        {authorPosts.length > 0 && (
+          <section className="space-y-6 mb-12">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#10B981] uppercase tracking-wider">
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Written by {member.name.split(" ")[0]}</span>
+              </div>
+              <h2 className="font-heading font-bold text-2xl text-[#F8FAFC]">
+                Published Journal Entries
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              {authorPosts.map((post) => (
+                <article
+                  key={post.id}
+                  className="group p-6 sm:p-7 rounded-2xl bg-[#161F2E]/80 border border-white/10 hover:border-[#10B981]/50 transition-all duration-200 backdrop-blur-sm shadow-xl hover:-translate-y-0.5 space-y-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold">
+                      {post.category}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[#94A3B8] text-xs">
+                      {post.type}
+                    </span>
+                  </div>
+
+                  <h3 className="font-heading font-bold text-xl text-[#F8FAFC] group-hover:text-[#10B981] transition-colors leading-snug">
+                    <Link href={`/journal/${post.slug}`}>
+                      {post.title}
+                    </Link>
+                  </h3>
+
+                  <p className="font-body text-sm sm:text-base text-[#94A3B8] line-clamp-2 leading-relaxed">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="pt-3 border-t border-white/[0.04] flex items-center justify-between text-xs text-[#94A3B8]">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 opacity-70" />
+                        {post.publishedAt}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1 text-[#34D399]">
+                        <Clock className="w-3.5 h-3.5" />
+                        {post.readTime}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/journal/${post.slug}`}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] group-hover:translate-x-1 transition-transform"
+                    >
+                      <span>Read Journal</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Waitlist Box */}
+        <div className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-6 shadow-2xl">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#10B981]/15 text-[#10B981] mx-auto">
+            <HeartHandshake className="w-6 h-6" />
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-heading font-bold text-2xl text-[#F8FAFC]">
+              Join the LOAH Beta &amp; Build Journey
+            </h3>
+            <p className="font-body text-sm sm:text-base text-[#94A3B8] max-w-md mx-auto leading-relaxed">
+              Experience the zero-activation brain dump tool designed for ADHD minds.
+            </p>
+          </div>
+          <div className="w-full pt-1">
+            <WaitlistForm />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

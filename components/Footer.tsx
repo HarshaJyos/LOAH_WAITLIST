@@ -18,6 +18,13 @@ export function Footer() {
 
       {/* Right Navigation & Status */}
       <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-4 text-xs">
+        <Link
+          href="/team"
+          className="hover:text-[#F8FAFC] text-[#94A3B8] transition-colors underline-offset-4 hover:underline"
+        >
+          Team
+        </Link>
+        <span>•</span>
         {isHome ? (
           <Link
             href="/journal"

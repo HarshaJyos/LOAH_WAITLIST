@@ -27,6 +27,14 @@ export function Header() {
           <span>Journals</span>
         </Link>
 
+        {/* Team Link */}
+        <Link
+          href="/team"
+          className="flex items-center gap-2 text-sm font-medium text-[#94A3B8] hover:text-[#F8FAFC] transition-colors py-2 px-3 rounded-md hover:bg-[#161F2E]/80 border border-transparent hover:border-white/10"
+        >
+          <span>Team</span>
+        </Link>
+
         {/* Live Build Badge */}
         <div className="hidden sm:flex items-center gap-2 py-1.5 px-3 rounded-full bg-[#161F2E] border border-white/10 text-xs font-medium text-[#94A3B8]">
           <span className="relative flex h-2 w-2">

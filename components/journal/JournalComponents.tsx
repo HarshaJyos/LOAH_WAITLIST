@@ -559,7 +559,38 @@ export function JournalDivider({ className }: { className?: string }) {
   );
 }
 
-// Re-export FAQ and Related components for unified editorial imports
+// Re-export FAQ, Related, Table and JsonLd components for unified editorial imports
 export { JournalFaq } from "./JournalFaq";
 export { JournalRelated } from "./JournalRelated";
 export { JournalJsonLd } from "./JournalJsonLd";
+export {
+  JournalTable,
+  JournalTableHead,
+  JournalTableBody,
+  JournalTableFooter,
+  JournalTableRow,
+  JournalTableHeaderCell,
+  JournalTableCell,
+  JournalTableCaption,
+  JournalDataTable,
+  Table,
+  THead,
+  TBody,
+  TFoot,
+  TR,
+  TH,
+  TD,
+  TableCaption,
+  DataTable,
+} from "./JournalTable";
+export type {
+  JournalTableProps,
+  JournalTableHeadProps,
+  JournalTableBodyProps,
+  JournalTableFooterProps,
+  JournalTableRowProps,
+  JournalTableHeaderCellProps,
+  JournalTableCellProps,
+  JournalTableCaptionProps,
+  JournalDataTableProps,
+} from "./JournalTable";

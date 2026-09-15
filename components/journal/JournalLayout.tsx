@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
@@ -14,9 +15,9 @@ import {
   Sparkles,
   Share2,
   Check,
-  BookOpen,
   ArrowRight,
   ListOrdered,
+  User,
 } from "lucide-react";
 
 interface JournalLayoutProps {
@@ -58,6 +59,12 @@ export function JournalLayout({
       setTimeout(() => setCopiedLink(false), 2000);
     }
   };
+
+  // Derive author slug for profile linking (e.g. "pavan-duggirala")
+  const authorSlug = post.author.name
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#0B0F17] text-[#F8FAFC] relative selection:bg-[#10B981]/20 selection:text-[#10B981]">
@@ -102,8 +109,8 @@ export function JournalLayout({
           </button>
         </div>
 
-        {/* Article Header */}
-        <header className="space-y-5 pb-8 border-b border-white/[0.08] mb-10">
+        {/* Article Header (Clean & Immediate: Category + Title only) */}
+        <header className="space-y-4 pb-6 border-b border-white/[0.08] mb-10">
           {/* Category & Type Pills */}
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="px-3 py-1 rounded-full bg-[#10B981]/10 text-[#10B981] text-xs font-semibold border border-[#10B981]/20">
@@ -118,36 +125,6 @@ export function JournalLayout({
           <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#F8FAFC] tracking-tight leading-[1.14]">
             {post.title}
           </h1>
-
-          {/* Excerpt Lead */}
-          <p className="font-body text-lg sm:text-xl text-[#94A3B8] leading-[1.6]">
-            {post.excerpt}
-          </p>
-
-          {/* Author & Read Time Meta */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 text-xs sm:text-sm text-[#94A3B8]">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#1E293B] border border-white/10 flex items-center justify-center text-[#10B981] text-sm font-bold uppercase">
-                {post.author.name.charAt(0)}
-              </div>
-              <div>
-                <p className="text-[#F8FAFC] font-semibold">{post.author.name}</p>
-                <p className="text-xs text-[#94A3B8]/80">{post.author.role}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-[#94A3B8]" />
-                {post.publishedAt}
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1.5 text-[#34D399] font-medium">
-                <Clock className="w-4 h-4" />
-                {post.readTime}
-              </span>
-            </div>
-          </div>
         </header>
 
         {/* Table of Contents if headings provided */}
@@ -192,23 +169,70 @@ export function JournalLayout({
           </div>
         )}
 
-        {/* Author Bio Box */}
-        <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-[#161F2E]/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#1E293B] border border-white/10 flex items-center justify-center text-[#10B981] text-xl font-bold uppercase shrink-0">
-            {post.author.name.charAt(0)}
+        {/* Author Bio & Post Meta Box (Moved to Bottom to Keep Top Focused & Frictionless) */}
+        <div className="mt-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl">
+          <div className="flex items-start sm:items-center gap-4">
+            {/* Author Photo */}
+            <Link
+              href={authorSlug ? `/team/${authorSlug}` : "/team"}
+              className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-[#10B981]/50 shrink-0 bg-[#161F2E] shadow-md hover:scale-105 transition-transform group"
+            >
+              {post.author.avatar ? (
+                <Image
+                  src={post.author.avatar}
+                  alt={post.author.name}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-[#10B981] text-xl font-bold uppercase">
+                  {post.author.name.charAt(0)}
+                </div>
+              )}
+            </Link>
+
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <h4 className="font-heading font-bold text-lg sm:text-xl text-[#F8FAFC]">
+                  <Link
+                    href={authorSlug ? `/team/${authorSlug}` : "/team"}
+                    className="hover:text-[#10B981] transition-colors"
+                  >
+                    {post.author.name}
+                  </Link>
+                </h4>
+                <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-[11px] font-semibold">
+                  {post.author.role}
+                </span>
+              </div>
+              <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed max-w-lg">
+                {post.author.bio || `${post.author.role} at LOAH.`}
+              </p>
+            </div>
           </div>
-          <div className="space-y-1">
-            <h4 className="font-heading font-bold text-base sm:text-lg text-[#F8FAFC]">
-              Written by {post.author.name}
-            </h4>
-            <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
-              {post.author.bio || `${post.author.role} at LOAH.`}
-            </p>
+
+          {/* Publishing Date & Read Time */}
+          <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-white/[0.06] text-xs text-[#94A3B8] gap-2 shrink-0">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#94A3B8]" />
+              <span>{post.publishedAt}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[#34D399] font-medium">
+              <Clock className="w-3.5 h-3.5" />
+              <span>{post.readTime}</span>
+            </div>
+            <Link
+              href={authorSlug ? `/team/${authorSlug}` : "/team"}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:underline pt-1"
+            >
+              <span>View Team Profile</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
         </div>
 
         {/* Next / Previous Article Navigation */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prevPost ? (
             <Link
               href={`/journal/${prevPost.slug}`}
@@ -235,7 +259,7 @@ export function JournalLayout({
         </div>
 
         {/* Bottom Waitlist Form */}
-        <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-6 shadow-2xl">
+        <div id="waitlist" className="mt-16 scroll-mt-24 p-8 rounded-2xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-6 shadow-2xl">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#10B981]/15 text-[#10B981] mx-auto">
             <Sparkles className="w-6 h-6" />
           </div>

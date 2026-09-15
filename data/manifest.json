@@ -1,19 +1,13 @@
 {
-  "totalPages": 2,
-  "totalPosts": 6,
-  "postsPerPage": 3,
+  "totalPages": 1,
+  "totalPosts": 1,
+  "postsPerPage": 6,
   "categories": [
     "All",
-    "Neuroscience",
-    "Engineering",
-    "ADHD Insights",
-    "Product Strategy"
+    "ADHD Insights"
   ],
   "types": [
     "All Types",
-    "Alpha Beta Release",
-    "Build Log 01",
-    "Deep Dive",
-    "Research Brief"
+    "Deep Dive"
   ]
 }

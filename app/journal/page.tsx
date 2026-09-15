@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
@@ -230,11 +231,27 @@ export default function JournalPage() {
 
               <div className="pt-3 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 text-xs sm:text-sm text-[#94A3B8]">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#1E293B] border border-white/10 flex items-center justify-center text-[#10B981] text-xs font-bold uppercase">
-                    {featuredPost.author.name.charAt(0)}
+                  <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 shrink-0 bg-[#1E293B]">
+                    {featuredPost.author.avatar ? (
+                      <Image
+                        src={featuredPost.author.avatar}
+                        alt={featuredPost.author.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[#10B981] text-xs font-bold uppercase">
+                        {featuredPost.author.name.charAt(0)}
+                      </div>
+                    )}
                   </div>
                   <div>
-                    <span className="text-[#F8FAFC] font-medium">{featuredPost.author.name}</span>
+                    <Link
+                      href="/team/pavan-duggirala"
+                      className="text-[#F8FAFC] font-medium hover:text-[#10B981] transition-colors"
+                    >
+                      {featuredPost.author.name}
+                    </Link>
                     <span className="mx-2">•</span>
                     <span>{featuredPost.readTime}</span>
                   </div>
