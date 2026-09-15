@@ -64,6 +64,30 @@ export function getPostBySlug(slug: string): JournalPostMeta | undefined {
 }
 
 /**
+ * Extract all unique authors across all posts with their occurrence counts and avatars
+ */
+export function getAllJournalAuthors(): { name: string; avatar: string; count: number }[] {
+  const posts = getAllJournalPosts();
+  const authorMap: Record<string, { name: string; avatar: string; count: number }> = {};
+
+  posts.forEach((post) => {
+    if (post.author && post.author.name) {
+      const name = post.author.name;
+      if (!authorMap[name]) {
+        authorMap[name] = {
+          name,
+          avatar: post.author.avatar,
+          count: 0,
+        };
+      }
+      authorMap[name].count += 1;
+    }
+  });
+
+  return Object.values(authorMap);
+}
+
+/**
  * Extract all unique tags across all posts with their occurrence counts
  */
 export function getAllJournalTags(): { tag: string; count: number }[] {
@@ -91,6 +115,7 @@ export function filterAndSortPosts(
     categories = [],
     types = [],
     tags = [],
+    authors = [],
     author = "",
     sortBy = "newest",
   }: {
@@ -98,18 +123,27 @@ export function filterAndSortPosts(
     categories?: string[];
     types?: string[];
     tags?: string[];
+    authors?: string[];
     author?: string;
     sortBy?: JournalSortOption;
   }
 ): JournalPostMeta[] {
   const cleanQuery = query.trim().toLowerCase();
 
+  // Normalize author list
+  const activeAuthors = [...authors];
+  if (author && author !== "All" && !activeAuthors.includes(author)) {
+    activeAuthors.push(author);
+  }
+
   const filtered = posts.filter((post) => {
-    // 1. Author Filter (if specified)
-    if (author && author !== "All") {
-      const authorMatch =
-        post.author.name.toLowerCase().includes(author.toLowerCase()) ||
-        post.author.avatar.toLowerCase().includes(author.toLowerCase());
+    // 1. Authors Filter (multi-select)
+    if (activeAuthors.length > 0 && !activeAuthors.includes("All")) {
+      const authorMatch = activeAuthors.some(
+        (a) =>
+          post.author.name.toLowerCase() === a.toLowerCase() ||
+          post.author.avatar.toLowerCase().includes(a.toLowerCase())
+      );
       if (!authorMatch) return false;
     }
 

@@ -12,6 +12,7 @@ import { JournalPagination } from "@/components/journal/JournalPagination";
 import {
   getJournalManifest,
   getAllJournalPosts,
+  getAllJournalAuthors,
   filterAndSortPosts,
   JournalSortOption,
 } from "@/lib/journal-data";
@@ -22,12 +23,10 @@ import {
   Sparkles,
   ArrowRight,
   Filter,
-  SlidersHorizontal,
-  RotateCcw,
   Check,
   ChevronDown,
   ChevronUp,
-  Tag,
+  User,
   ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -40,6 +39,7 @@ export default function JournalPage() {
 
   // Filter State (Strictly persisted until reset)
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -50,11 +50,16 @@ export default function JournalPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Accordion open states for filter groups
+  const [authorOpen, setAuthorOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [typeOpen, setTypeOpen] = useState(true);
   const [tagsOpen, setTagsOpen] = useState(true);
 
-  // Derive unique categories, types, and tags with counts from allPosts
+  // Derive unique authors with counts from allPosts
+  const availableAuthors = useMemo(() => {
+    return getAllJournalAuthors();
+  }, []);
+
   const availableCategories = useMemo(() => {
     return manifest.categories.filter((c) => c !== "All");
   }, [manifest.categories]);
@@ -76,6 +81,7 @@ export default function JournalPage() {
   // Determine if any filters are active
   const isFiltering =
     searchQuery.trim().length > 0 ||
+    selectedAuthors.length > 0 ||
     selectedCategories.length > 0 ||
     selectedTypes.length > 0 ||
     selectedTags.length > 0 ||
@@ -83,6 +89,7 @@ export default function JournalPage() {
 
   const totalActiveFilterCount =
     (searchQuery.trim() ? 1 : 0) +
+    selectedAuthors.length +
     selectedCategories.length +
     selectedTypes.length +
     selectedTags.length +
@@ -92,12 +99,21 @@ export default function JournalPage() {
   const filteredPosts = useMemo(() => {
     return filterAndSortPosts(allPosts, {
       query: searchQuery,
+      authors: selectedAuthors,
       categories: selectedCategories,
       types: selectedTypes,
       tags: selectedTags,
       sortBy,
     });
-  }, [allPosts, searchQuery, selectedCategories, selectedTypes, selectedTags, sortBy]);
+  }, [
+    allPosts,
+    searchQuery,
+    selectedAuthors,
+    selectedCategories,
+    selectedTypes,
+    selectedTags,
+    sortBy,
+  ]);
 
   // Pagination calculation with edge-case clamping
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
@@ -122,6 +138,15 @@ export default function JournalPage() {
   }, [isFiltering, activePage, allPosts]);
 
   // Filter Toggle Handlers
+  const toggleAuthor = (authorName: string) => {
+    setSelectedAuthors((prev) =>
+      prev.includes(authorName)
+        ? prev.filter((a) => a !== authorName)
+        : [...prev, authorName]
+    );
+    setCurrentPage(1);
+  };
+
   const toggleCategory = (cat: string) => {
     setSelectedCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
@@ -146,6 +171,7 @@ export default function JournalPage() {
   // Reset all filters
   const handleResetFilters = () => {
     setSearchQuery("");
+    setSelectedAuthors([]);
     setSelectedCategories([]);
     setSelectedTypes([]);
     setSelectedTags([]);
@@ -153,13 +179,21 @@ export default function JournalPage() {
     setCurrentPage(1);
   };
 
-  // Category counts in current dataset
+  const getAuthorCount = (authorName: string) => {
+    return allPosts.filter(
+      (p) => p.author.name.toLowerCase() === authorName.toLowerCase()
+    ).length;
+  };
+
   const getCategoryCount = (cat: string) => {
-    return allPosts.filter((p) => p.category.toLowerCase() === cat.toLowerCase()).length;
+    return allPosts.filter(
+      (p) => p.category.toLowerCase() === cat.toLowerCase()
+    ).length;
   };
 
   const getTypeCount = (t: string) => {
-    return allPosts.filter((p) => p.type.toLowerCase() === t.toLowerCase()).length;
+    return allPosts.filter((p) => p.type.toLowerCase() === t.toLowerCase())
+      .length;
   };
 
   return (
@@ -210,7 +244,7 @@ export default function JournalPage() {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search journals by keyword, neuroscience topic, or tag (e.g. 'notes', 'working memory')..."
+              placeholder="Search journals by keyword, neuroscience topic, or author (e.g. 'notes', 'working memory')..."
               className="w-full h-14 sm:h-16 pl-3.5 pr-28 rounded-2xl bg-transparent text-[#F8FAFC] placeholder-[#94A3B8]/60 text-sm sm:text-base font-body focus:outline-none"
             />
 
@@ -246,6 +280,19 @@ export default function JournalPage() {
                   </button>
                 </span>
               )}
+
+              {selectedAuthors.map((author) => (
+                <span
+                  key={author}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30 text-xs text-[#10B981]"
+                >
+                  <span>Author: {author}</span>
+                  <button onClick={() => toggleAuthor(author)} aria-label={`Remove ${author} filter`}>
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+
               {selectedCategories.map((cat) => (
                 <span
                   key={cat}
@@ -257,6 +304,7 @@ export default function JournalPage() {
                   </button>
                 </span>
               ))}
+
               {selectedTypes.map((t) => (
                 <span
                   key={t}
@@ -268,6 +316,7 @@ export default function JournalPage() {
                   </button>
                 </span>
               ))}
+
               {selectedTags.map((tag) => (
                 <span
                   key={tag}
@@ -279,6 +328,7 @@ export default function JournalPage() {
                   </button>
                 </span>
               ))}
+
               <button
                 type="button"
                 onClick={handleResetFilters}
@@ -335,6 +385,21 @@ export default function JournalPage() {
                       </span>
                     )}
 
+                    {selectedAuthors.map((author) => (
+                      <span
+                        key={author}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30 text-xs text-[#10B981]"
+                      >
+                        <span>Author: {author}</span>
+                        <button
+                          onClick={() => toggleAuthor(author)}
+                          className="hover:text-white"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
+
                     {selectedCategories.map((cat) => (
                       <span
                         key={cat}
@@ -383,6 +448,83 @@ export default function JournalPage() {
                 </div>
               )}
 
+              {/* Filter Group: Authors */}
+              {availableAuthors.length > 0 && (
+                <div className="space-y-3 pb-3.5 border-b border-white/[0.08]">
+                  <button
+                    type="button"
+                    onClick={() => setAuthorOpen(!authorOpen)}
+                    className="w-full flex items-center justify-between text-left group cursor-pointer"
+                  >
+                    <span className="font-heading font-semibold text-xs uppercase tracking-wider text-[#CBD5E1] group-hover:text-[#F8FAFC]">
+                      Authors
+                    </span>
+                    {authorOpen ? (
+                      <ChevronUp className="w-4 h-4 text-[#94A3B8]" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-[#94A3B8]" />
+                    )}
+                  </button>
+
+                  {authorOpen && (
+                    <div className="space-y-2 pt-1">
+                      {availableAuthors.map((author) => {
+                        const isChecked = selectedAuthors.includes(author.name);
+                        const count = getAuthorCount(author.name);
+                        return (
+                          <label
+                            key={author.name}
+                            onClick={() => toggleAuthor(author.name)}
+                            className="flex items-center justify-between p-2 rounded-xl hover:bg-white/[0.04] transition-colors cursor-pointer select-none text-xs"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={cn(
+                                  "w-4 h-4 rounded flex items-center justify-center border transition-all",
+                                  isChecked
+                                    ? "bg-[#10B981] border-[#10B981] text-[#022C22]"
+                                    : "border-white/20 bg-[#0B0F17]"
+                                )}
+                              >
+                                {isChecked && (
+                                  <Check className="w-3 h-3 stroke-[3]" />
+                                )}
+                              </div>
+                              <div className="relative w-5 h-5 rounded-full overflow-hidden bg-[#1E293B] shrink-0 border border-white/10">
+                                {author.avatar ? (
+                                  <Image
+                                    src={author.avatar}
+                                    alt={author.name}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-[#10B981] text-[9px] font-bold">
+                                    {author.name.charAt(0)}
+                                  </div>
+                                )}
+                              </div>
+                              <span
+                                className={cn(
+                                  isChecked
+                                    ? "text-[#F8FAFC] font-semibold"
+                                    : "text-[#94A3B8]"
+                                )}
+                              >
+                                {author.name}
+                              </span>
+                            </div>
+                            <span className="text-[11px] font-mono text-[#94A3B8]/70">
+                              ({count})
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Filter Group: Categories */}
               <div className="space-y-3 pb-3.5 border-b border-white/[0.08]">
                 <button
@@ -420,7 +562,9 @@ export default function JournalPage() {
                                   : "border-white/20 bg-[#0B0F17]"
                               )}
                             >
-                              {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              {isChecked && (
+                                <Check className="w-3 h-3 stroke-[3]" />
+                              )}
                             </div>
                             <span
                               className={cn(
@@ -479,7 +623,9 @@ export default function JournalPage() {
                                   : "border-white/20 bg-[#0B0F17]"
                               )}
                             >
-                              {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              {isChecked && (
+                                <Check className="w-3 h-3 stroke-[3]" />
+                              )}
                             </div>
                             <span
                               className={cn(
@@ -534,7 +680,10 @@ export default function JournalPage() {
                                 : "bg-[#0B0F17] text-[#94A3B8] border border-white/10 hover:text-[#F8FAFC] hover:border-white/20"
                             )}
                           >
-                            #{tag} <span className="opacity-60 text-[10px]">({count})</span>
+                            #{tag}{" "}
+                            <span className="opacity-60 text-[10px]">
+                              ({count})
+                            </span>
                           </button>
                         );
                       })}
@@ -549,7 +698,7 @@ export default function JournalPage() {
           {/* MAIN RESULTS COLUMN */}
           {/* ========================================================= */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Responsive Action Toolbar with Perfect Spacing & Hierarchy */}
+            {/* Responsive Action Toolbar with Clean Hierarchy */}
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[#161F2E]/80 border border-white/10 shadow-md space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
               {/* Mobile View: Clean 2-Button Action Row */}
               <div className="flex items-center gap-2.5 sm:hidden">
@@ -577,11 +726,21 @@ export default function JournalPage() {
                     aria-label="Sort journal entries"
                     className="w-full h-10 pl-3 pr-8 rounded-xl bg-[#0B0F17] border border-white/15 text-xs font-medium text-[#F8FAFC] focus:outline-none focus:border-[#10B981]/50 appearance-none cursor-pointer"
                   >
-                    <option value="newest" className="bg-[#161F2E] text-[#F8FAFC]">Newest</option>
-                    <option value="oldest" className="bg-[#161F2E] text-[#F8FAFC]">Oldest</option>
-                    <option value="shortest" className="bg-[#161F2E] text-[#F8FAFC]">Quick Read</option>
-                    <option value="longest" className="bg-[#161F2E] text-[#F8FAFC]">Deep Read</option>
-                    <option value="alphabetical" className="bg-[#161F2E] text-[#F8FAFC]">Title (A-Z)</option>
+                    <option value="newest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Newest
+                    </option>
+                    <option value="oldest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Oldest
+                    </option>
+                    <option value="shortest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Quick Read
+                    </option>
+                    <option value="longest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Deep Read
+                    </option>
+                    <option value="alphabetical" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Title (A-Z)
+                    </option>
                   </select>
                   <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#94A3B8] pointer-events-none" />
                 </div>
@@ -590,8 +749,15 @@ export default function JournalPage() {
               {/* Status Counter & Reset Link */}
               <div className="flex items-center justify-between text-xs text-[#94A3B8] px-1 sm:px-0">
                 <p>
-                  Showing <span className="font-semibold text-[#F8FAFC]">{paginatedPosts.length}</span> of{" "}
-                  <span className="font-semibold text-[#F8FAFC]">{filteredPosts.length}</span> {filteredPosts.length === 1 ? "article" : "articles"}
+                  Showing{" "}
+                  <span className="font-semibold text-[#F8FAFC]">
+                    {paginatedPosts.length}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-semibold text-[#F8FAFC]">
+                    {filteredPosts.length}
+                  </span>{" "}
+                  {filteredPosts.length === 1 ? "article" : "articles"}
                 </p>
 
                 {isFiltering && (
@@ -620,11 +786,21 @@ export default function JournalPage() {
                     aria-label="Sort journal entries"
                     className="h-9 pl-3.5 pr-8 rounded-xl bg-[#0B0F17] border border-white/10 text-xs font-medium text-[#F8FAFC] focus:outline-none focus:border-[#10B981]/50 appearance-none cursor-pointer hover:border-white/20 transition-colors"
                   >
-                    <option value="newest" className="bg-[#161F2E] text-[#F8FAFC]">Newest First</option>
-                    <option value="oldest" className="bg-[#161F2E] text-[#F8FAFC]">Oldest First</option>
-                    <option value="shortest" className="bg-[#161F2E] text-[#F8FAFC]">Reading Time (Shortest)</option>
-                    <option value="longest" className="bg-[#161F2E] text-[#F8FAFC]">Reading Time (Longest)</option>
-                    <option value="alphabetical" className="bg-[#161F2E] text-[#F8FAFC]">Title (A-Z)</option>
+                    <option value="newest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Newest First
+                    </option>
+                    <option value="oldest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Oldest First
+                    </option>
+                    <option value="shortest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Reading Time (Shortest)
+                    </option>
+                    <option value="longest" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Reading Time (Longest)
+                    </option>
+                    <option value="alphabetical" className="bg-[#161F2E] text-[#F8FAFC]">
+                      Title (A-Z)
+                    </option>
                   </select>
                   <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#94A3B8] pointer-events-none" />
                 </div>
@@ -701,7 +877,10 @@ export default function JournalPage() {
 
             {/* Articles Grid */}
             {paginatedPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="journal-grid">
+              <div
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                id="journal-grid"
+              >
                 {paginatedPosts.map((post) => (
                   <JournalCard key={post.id} post={post} />
                 ))}
@@ -716,7 +895,8 @@ export default function JournalPage() {
                     No matching journal entries found
                   </p>
                   <p className="font-body text-sm text-[#94A3B8] max-w-md mx-auto leading-relaxed">
-                    We couldn’t find any entries matching your filters. Try adjusting your search query or clearing selected categories.
+                    We couldn’t find any entries matching your filters. Try
+                    adjusting your search query or clearing selected filters.
                   </p>
                 </div>
                 <button
@@ -728,7 +908,7 @@ export default function JournalPage() {
               </div>
             )}
 
-            {/* Pagination Component (Operates flawlessly even with filtered datasets) */}
+            {/* Pagination Component */}
             {totalPages > 1 && (
               <div className="pt-4">
                 <JournalPagination
@@ -747,7 +927,7 @@ export default function JournalPage() {
         </div>
 
         {/* ========================================================= */}
-        {/* MOBILE SLIDE-OVER FILTER DRAWER (Flipkart Mobile Pattern) */}
+        {/* MOBILE SLIDE-OVER FILTER DRAWER */}
         {/* ========================================================= */}
         {isMobileFilterOpen && (
           <div className="fixed inset-0 z-50 flex flex-col justify-end bg-[#0B0F17]/80 backdrop-blur-md lg:hidden animate-fade-in-scale">
@@ -777,7 +957,56 @@ export default function JournalPage() {
                 </button>
               </div>
 
-              {/* Categories */}
+              {/* Mobile Drawer: Authors */}
+              {availableAuthors.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="font-heading font-semibold text-xs uppercase tracking-wider text-[#94A3B8]">
+                    Authors
+                  </h4>
+                  <div className="space-y-2">
+                    {availableAuthors.map((author) => {
+                      const isChecked = selectedAuthors.includes(author.name);
+                      const count = getAuthorCount(author.name);
+                      return (
+                        <label
+                          key={author.name}
+                          onClick={() => toggleAuthor(author.name)}
+                          className="flex items-center justify-between p-2.5 rounded-xl bg-[#0B0F17]/60 border border-white/5 cursor-pointer text-xs"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <div
+                              className={cn(
+                                "w-4 h-4 rounded flex items-center justify-center border",
+                                isChecked
+                                  ? "bg-[#10B981] border-[#10B981] text-[#022C22]"
+                                  : "border-white/20"
+                              )}
+                            >
+                              {isChecked && (
+                                <Check className="w-3 h-3 stroke-[3]" />
+                              )}
+                            </div>
+                            <span
+                              className={
+                                isChecked
+                                  ? "text-[#F8FAFC] font-bold"
+                                  : "text-[#94A3B8]"
+                              }
+                            >
+                              {author.name}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-mono text-[#94A3B8]">
+                            ({count})
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Mobile Drawer: Categories */}
               <div className="space-y-3">
                 <h4 className="font-heading font-semibold text-xs uppercase tracking-wider text-[#94A3B8]">
                   Categories
@@ -801,20 +1030,30 @@ export default function JournalPage() {
                                 : "border-white/20"
                             )}
                           >
-                            {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                            {isChecked && (
+                              <Check className="w-3 h-3 stroke-[3]" />
+                            )}
                           </div>
-                          <span className={isChecked ? "text-[#F8FAFC] font-bold" : "text-[#94A3B8]"}>
+                          <span
+                            className={
+                              isChecked
+                                ? "text-[#F8FAFC] font-bold"
+                                : "text-[#94A3B8]"
+                            }
+                          >
                             {cat}
                           </span>
                         </div>
-                        <span className="text-[11px] font-mono text-[#94A3B8]">({count})</span>
+                        <span className="text-[11px] font-mono text-[#94A3B8]">
+                          ({count})
+                        </span>
                       </label>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Article Types */}
+              {/* Mobile Drawer: Article Types */}
               <div className="space-y-3">
                 <h4 className="font-heading font-semibold text-xs uppercase tracking-wider text-[#94A3B8]">
                   Article Type
@@ -838,13 +1077,23 @@ export default function JournalPage() {
                                 : "border-white/20"
                             )}
                           >
-                            {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                            {isChecked && (
+                              <Check className="w-3 h-3 stroke-[3]" />
+                            )}
                           </div>
-                          <span className={isChecked ? "text-[#F8FAFC] font-bold" : "text-[#94A3B8]"}>
+                          <span
+                            className={
+                              isChecked
+                                ? "text-[#F8FAFC] font-bold"
+                                : "text-[#94A3B8]"
+                            }
+                          >
                             {t}
                           </span>
                         </div>
-                        <span className="text-[11px] font-mono text-[#94A3B8]">({count})</span>
+                        <span className="text-[11px] font-mono text-[#94A3B8]">
+                          ({count})
+                        </span>
                       </label>
                     );
                   })}
