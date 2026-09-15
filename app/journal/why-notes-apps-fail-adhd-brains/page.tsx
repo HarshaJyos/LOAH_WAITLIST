@@ -155,13 +155,13 @@ export default function WhyNotesAppsFailPage() {
 
         <JournalOL>
           <LI>
-            <Span variant="bold">1. One single place to dump.</Span> If I have to choose a location before I can type, the system is already broken.
+            <Span variant="bold">One single place to dump.</Span> If I have to choose a location before I can type, the system is already broken.
           </LI>
           <LI>
-            <Span variant="bold">2. Zero polishing.</Span> Spelling doesn’t matter. Grammar doesn’t matter. Speed is the only thing that counts.
+            <Span variant="bold">Zero polishing.</Span> Spelling doesn’t matter. Grammar doesn’t matter. Speed is the only thing that counts.
           </LI>
           <LI>
-            <Span variant="bold">3. Decide later.</Span> Never organise a thought the second it leaves my head. Let it sit until my brain has energy again.
+            <Span variant="bold">Decide later.</Span> Never organise a thought the second it leaves my head. Let it sit until my brain has energy again.
           </LI>
         </JournalOL>
 
