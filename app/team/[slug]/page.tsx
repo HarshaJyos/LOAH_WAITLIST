@@ -70,8 +70,35 @@ export default async function TeamMemberPage({
       post.author.avatar.includes(member.slug.split("-")[0])
   );
 
+  // Extract social urls for schema sameAs
+  const socialUrls = member.socials
+    ? Object.values(member.socials).filter((url): url is string => typeof url === "string" && !url.startsWith("mailto:"))
+    : [];
+
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: member.name,
+      jobTitle: member.role,
+      description: member.shortBio,
+      image: `https://loah.app${member.avatar}`,
+      worksFor: {
+        "@type": "Organization",
+        name: "LOAH",
+        url: "https://loah.app",
+      },
+      sameAs: socialUrls,
+    },
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#0B0F17] text-[#F8FAFC] relative selection:bg-[#10B981]/20 selection:text-[#10B981]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <SensoryBackdrop />
       <Header />
 

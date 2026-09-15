@@ -1,0 +1,29 @@
+# LOAH — Zero-Friction Externalization System for ADHD Minds
+
+> LOAH is a cognitive tool built specifically for ADHD brains to eliminate the activation energy required to capture, dump, and organize thoughts without burnout, cognitive fatigue, or premature categorization.
+
+## About LOAH
+
+Traditional notes apps (Apple Notes, Notion, Obsidian, Todoist) fail ADHD minds because they force users to make executive decisions at the exact moment of capture: picking a folder, tagging, structuring databases, or choosing templates. For ADHD working memory, this simultaneous capture + organization exhausts dopamine and triggers task paralysis.
+
+LOAH decouples the capture phase from the organization phase, allowing zero-friction brain dumps with sensory calm, instant capture, and asynchronous cognitive processing.
+
+## Core Philosophy & Rules
+
+1. **Zero Categorization at Capture**: Capture without folders, tags, or hierarchies. Decisions are deferred until working memory is clear.
+2. **Infinite Messy Container**: A distraction-free zone where unformed thoughts, half-sentences, and rambling ideas are safely externalized without judgment.
+3. **Low Activation Energy**: The UI is optimized to load instantaneously and require zero preliminary clicks before typing or speaking.
+
+## Key Sections & Pages
+
+- [LOAH Waitlist & Early Beta Access](https://loah.app/): Join early testers for the private beta release.
+- [The LOAH Journals](https://loah.app/journal): Neurobiology teardowns, executive function research, and building-in-public architecture logs.
+- [Why Notes Apps Fail ADHD Brains](https://loah.app/journal/why-notes-apps-fail-adhd-brains): Teardown of ADHD working memory friction and the 3 simple rules to brain dump without overwhelm.
+- [LOAH Team & Builders](https://loah.app/team): Meet the neurodivergent engineers and strategists building LOAH.
+- [Pavan Duggirala — Product & Community Lead](https://loah.app/team/pavan-duggirala): Background, story, and focus areas of LOAH's Product Lead.
+
+## Optional & Extended Details
+
+- Full documentation and comprehensive research papers: [llms-full.txt](https://loah.app/llms-full.txt)
+- Sitemap: [sitemap.xml](https://loah.app/sitemap.xml)
+- Robots: [robots.txt](https://loah.app/robots.txt)

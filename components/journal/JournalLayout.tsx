@@ -66,8 +66,39 @@ export function JournalLayout({
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-");
 
+  // Article JSON-LD Structured Data
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.isoDate || post.publishedAt,
+    dateModified: post.isoDate || post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author.name,
+      jobTitle: post.author.role,
+      url: `https://loah.app/team/${authorSlug}`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "LOAH",
+      url: "https://loah.app",
+    },
+    articleSection: post.category,
+    keywords: post.tags?.join(", "),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://loah.app/journal/${post.slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#0B0F17] text-[#F8FAFC] relative selection:bg-[#10B981]/20 selection:text-[#10B981]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       {/* Scroll Reading Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-transparent z-50">
         <div

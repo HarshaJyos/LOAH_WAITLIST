@@ -1,0 +1,39 @@
+# LOAH — Comprehensive Knowledge & Research Document
+
+## 1. Overview & Vision
+LOAH is a zero-friction thought externalization platform built for people with ADHD (Attention-Deficit/Hyperactivity Disorder) and executive dysfunction. The platform is designed by individuals living with ADHD to solve the pervasive problem of task initiation paralysis and cognitive overwhelm caused by traditional productivity apps.
+
+## 2. The Core Problem: Why Traditional Productivity Apps Fail ADHD Brains
+Traditional productivity software (e.g. Notion, Apple Notes, Obsidian, Roam, Todoist) is designed around an implicit assumption of neurotypical executive functioning: that an individual can simultaneously hold a raw thought in working memory while making organizational decisions (selecting a database, folder, tag, project, or priority level).
+
+For an ADHD brain, working memory is fragile and easily overloaded. Forcing structural decisions at the point of capture introduces high "activation energy". As a result:
+- The user experiences hesitation and task paralysis.
+- The original thought is forgotten while trying to navigate the app's structure.
+- Notes apps accumulate dozens of half-finished, unorganized drafts that induce guilt and avoidance.
+
+## 3. The 3 Rules of Zero-Friction ADHD Brain Dumping
+
+### Rule 1: Zero Categorization at Capture
+Never ask the user where a thought belongs while they are trying to get it out of their head. Capture must be a pure, unfiltered pipe. Sorting and categorization must always be decoupled and performed asynchronously.
+
+### Rule 2: Embrace the Messy Container
+An ADHD brain needs a safe container where thoughts do not need to look polished or structured. Partial sentences, keywords, audio snippets, and unstructured lists are treated as first-class citizens.
+
+### Rule 3: Minimize Activation Energy
+Every millisecond of latency or unnecessary UI element adds friction that can derail dopamine-deficient executive circuits. The capture interface must be instantaneous and sensory-calm.
+
+## 4. Platform Structure & Links
+
+- Home / Waitlist: https://loah.app/
+- Journals Hub: https://loah.app/journal
+- Feature Teardown: https://loah.app/journal/why-notes-apps-fail-adhd-brains
+- Team Directory: https://loah.app/team
+- Team Member (Pavan Duggirala): https://loah.app/team/pavan-duggirala
+
+## 5. Team
+- Pavan Duggirala: Product & Community Lead at LOAH. Product strategist living with ADHD, exploring calm, zero-friction externalization systems.
+
+## 6. Technical Stack
+- Framework: Next.js (App Router, Turbopack)
+- Styling: Tailwind CSS & Custom Design System (HSL-tailored dark mode, sensory backdrop)
+- Backend & Storage: Firebase / Firestore for early waitlist management and secure auth
