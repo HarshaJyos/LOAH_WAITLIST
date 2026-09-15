@@ -245,22 +245,22 @@ export function AuthorArticlesList({
                 {post.excerpt}
               </p>
 
-              <div className="pt-3 border-t border-white/[0.04] flex items-center justify-between text-xs text-[#94A3B8]">
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 opacity-70" />
-                    {post.publishedAt}
+              <div className="pt-3.5 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2.5 text-xs text-[#94A3B8]">
+                <div className="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap">
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                    <Calendar className="w-3.5 h-3.5 opacity-70 shrink-0" />
+                    <span>{post.publishedAt}</span>
                   </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1 text-[#34D399]">
-                    <Clock className="w-3.5 h-3.5" />
-                    {post.readTime}
+                  <span className="opacity-40">•</span>
+                  <span className="inline-flex items-center gap-1.5 text-[#34D399] font-medium whitespace-nowrap">
+                    <Clock className="w-3.5 h-3.5 shrink-0" />
+                    <span>{post.readTime}</span>
                   </span>
                 </div>
 
                 <Link
                   href={`/journal/${post.slug}`}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] group-hover:translate-x-1 transition-transform"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] group-hover:translate-x-1 transition-transform whitespace-nowrap shrink-0"
                 >
                   <span>Read Journal</span>
                   <ArrowRight className="w-3.5 h-3.5" />

@@ -97,7 +97,6 @@ export default function TeamDirectoryPage() {
                     <TeamSocialLinks
                       socials={member.socials}
                       memberName={member.name}
-                      variant="compact"
                     />
                   </div>
                 )}

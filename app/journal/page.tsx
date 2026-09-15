@@ -813,15 +813,16 @@ export default function JournalPage() {
                 <div className="absolute top-0 right-0 w-80 h-80 bg-[#10B981]/10 rounded-full blur-3xl pointer-events-none" />
 
                 <div className="relative z-10 space-y-4">
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30 whitespace-nowrap">
                       {featuredPost.category}
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-white/10 text-[#F8FAFC] text-xs font-medium">
+                    <span className="px-3 py-1 rounded-full bg-white/10 text-[#F8FAFC] text-xs font-medium whitespace-nowrap">
                       {featuredPost.type}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/20">
-                      <Sparkles className="w-3.5 h-3.5" /> Featured Spotlight
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 whitespace-nowrap">
+                      <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                      <span>Featured Spotlight</span>
                     </span>
                   </div>
 
@@ -835,8 +836,8 @@ export default function JournalPage() {
                     {featuredPost.excerpt}
                   </p>
 
-                  <div className="pt-3 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 text-xs sm:text-sm text-[#94A3B8]">
-                    <div className="flex items-center gap-3">
+                  <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 text-xs sm:text-sm text-[#94A3B8]">
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                       <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 shrink-0 bg-[#1E293B]">
                         {featuredPost.author.avatar ? (
                           <Image
@@ -851,24 +852,24 @@ export default function JournalPage() {
                           </div>
                         )}
                       </div>
-                      <div>
+                      <div className="flex items-center gap-2 whitespace-nowrap">
                         <Link
                           href="/team/pavan-duggirala"
-                          className="text-[#F8FAFC] font-medium hover:text-[#10B981] transition-colors"
+                          className="text-[#F8FAFC] font-medium hover:text-[#10B981] transition-colors whitespace-nowrap"
                         >
                           {featuredPost.author.name}
                         </Link>
-                        <span className="mx-2">•</span>
-                        <span>{featuredPost.readTime}</span>
+                        <span className="opacity-40">•</span>
+                        <span className="text-[#34D399] font-medium whitespace-nowrap">{featuredPost.readTime}</span>
                       </div>
                     </div>
 
                     <Link
                       href={`/journal/${featuredPost.slug}`}
-                      className="inline-flex items-center gap-1.5 font-heading font-bold text-sm text-[#10B981] group-hover:translate-x-1 transition-transform"
+                      className="inline-flex items-center gap-1.5 font-heading font-bold text-xs sm:text-sm text-[#10B981] group-hover:translate-x-1 transition-transform whitespace-nowrap shrink-0 ml-auto sm:ml-0"
                     >
                       <span>Read Entry</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </Link>
                   </div>
                 </div>

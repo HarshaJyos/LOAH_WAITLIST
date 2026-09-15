@@ -111,15 +111,12 @@ export default async function TeamMemberPage({
                   className="object-cover"
                 />
               </div>
-              <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-[#10B981] text-[#022C22] text-[10px] font-bold uppercase tracking-wider shadow-md">
-                Team
-              </div>
             </div>
 
             {/* Header Details */}
-            <div className="space-y-3.5 text-center sm:text-left flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30">
-                <Sparkles className="w-3.5 h-3.5" />
+            <div className="space-y-3.5 text-center sm:text-left flex-1 min-w-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30 whitespace-nowrap">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
                 <span>{member.role}</span>
               </div>
 
@@ -133,18 +130,17 @@ export default async function TeamMemberPage({
 
               {member.location && (
                 <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-[#94A3B8]">
-                  <MapPin className="w-3.5 h-3.5 text-[#10B981]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
                   <span>{member.location}</span>
                 </div>
               )}
 
-              {/* Social Media Links (Rendered only if provided) */}
+              {/* Social Media Links (Recognized icons, no bulky text boxing) */}
               {member.socials && (
                 <div className="pt-2 flex justify-center sm:justify-start">
                   <TeamSocialLinks
                     socials={member.socials}
                     memberName={member.name}
-                    variant="pill"
                   />
                 </div>
               )}

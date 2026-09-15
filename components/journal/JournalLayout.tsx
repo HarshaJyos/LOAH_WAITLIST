@@ -170,8 +170,8 @@ export function JournalLayout({
         )}
 
         {/* Author Bio & Post Meta Box (Moved to Bottom to Keep Top Focused & Frictionless) */}
-        <div className="mt-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl">
-          <div className="flex items-start sm:items-center gap-4">
+        <div className="mt-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 shadow-xl space-y-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
             {/* Author Photo */}
             <Link
               href={authorSlug ? `/team/${authorSlug}` : "/team"}
@@ -191,7 +191,7 @@ export function JournalLayout({
               )}
             </Link>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <h4 className="font-heading font-bold text-lg sm:text-xl text-[#F8FAFC]">
                   <Link
@@ -201,32 +201,36 @@ export function JournalLayout({
                     {post.author.name}
                   </Link>
                 </h4>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-[11px] font-semibold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-[11px] font-semibold whitespace-nowrap">
                   {post.author.role}
                 </span>
               </div>
-              <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed max-w-lg">
+              <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
                 {post.author.bio || `${post.author.role} at LOAH.`}
               </p>
             </div>
           </div>
 
-          {/* Publishing Date & Read Time */}
-          <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-white/[0.06] text-xs text-[#94A3B8] gap-2 shrink-0">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#94A3B8]" />
-              <span>{post.publishedAt}</span>
+          {/* Publishing Date, Read Time & Team Link (Responsive & Unbreakable) */}
+          <div className="pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs text-[#94A3B8]">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <Calendar className="w-3.5 h-3.5 opacity-70" />
+                <span>{post.publishedAt}</span>
+              </span>
+              <span className="opacity-40">•</span>
+              <span className="inline-flex items-center gap-1.5 text-[#34D399] font-medium whitespace-nowrap">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{post.readTime}</span>
+              </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[#34D399] font-medium">
-              <Clock className="w-3.5 h-3.5" />
-              <span>{post.readTime}</span>
-            </div>
+
             <Link
               href={authorSlug ? `/team/${authorSlug}` : "/team"}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:underline pt-1"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#10B981] hover:underline whitespace-nowrap shrink-0 group"
             >
               <span>View Team Profile</span>
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
         </div>
