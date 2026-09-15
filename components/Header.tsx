@@ -16,12 +16,9 @@ export function Header() {
       {/* Brand Logo */}
       <Link
         href="/"
-        className="group flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-xl p-1 transition-transform active:scale-95"
+        className="group flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-xl p-1 transition-transform active:scale-95"
         aria-label="LOAH Home"
       >
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#10B981] to-[#047857] flex items-center justify-center text-[#022C22] shadow-[0_0_15px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_20px_rgba(16,185,129,0.5)] transition-all">
-          <Sparkles className="w-4 h-4 fill-current stroke-[2.5]" />
-        </div>
         <span className="font-heading font-extrabold text-xl sm:text-2xl tracking-wider text-[#F8FAFC] group-hover:text-[#10B981] transition-colors">
           LOAH
         </span>
