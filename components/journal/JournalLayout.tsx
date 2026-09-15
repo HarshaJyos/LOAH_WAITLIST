@@ -170,12 +170,13 @@ export function JournalLayout({
         )}
 
         {/* Author Bio & Post Meta Box (Moved to Bottom to Keep Top Focused & Frictionless) */}
-        <div className="mt-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 shadow-xl space-y-5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
-            {/* Author Photo */}
+        {/* Author Bio & Post Meta Box */}
+        <div className="mt-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] via-[#111827] to-[#0B0F17] border border-white/10 shadow-xl space-y-4">
+          {/* Top Row: Avatar + Name & Role Badge */}
+          <div className="flex items-center gap-3.5 sm:gap-4">
             <Link
               href={authorSlug ? `/team/${authorSlug}` : "/team"}
-              className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-[#10B981]/50 shrink-0 bg-[#161F2E] shadow-md hover:scale-105 transition-transform group"
+              className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border-2 border-[#10B981]/50 shrink-0 bg-[#161F2E] shadow-md hover:scale-105 transition-transform group"
             >
               {post.author.avatar ? (
                 <Image
@@ -185,34 +186,34 @@ export function JournalLayout({
                   className="object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#10B981] text-xl font-bold uppercase">
+                <div className="w-full h-full flex items-center justify-center text-[#10B981] text-lg font-bold uppercase">
                   {post.author.name.charAt(0)}
                 </div>
               )}
             </Link>
 
-            <div className="space-y-1.5 flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h4 className="font-heading font-bold text-lg sm:text-xl text-[#F8FAFC]">
-                  <Link
-                    href={authorSlug ? `/team/${authorSlug}` : "/team"}
-                    className="hover:text-[#10B981] transition-colors"
-                  >
-                    {post.author.name}
-                  </Link>
-                </h4>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-[11px] font-semibold whitespace-nowrap">
-                  {post.author.role}
-                </span>
-              </div>
-              <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
-                {post.author.bio || `${post.author.role} at LOAH.`}
-              </p>
+            <div className="space-y-1 min-w-0">
+              <h4 className="font-heading font-bold text-lg sm:text-xl text-[#F8FAFC]">
+                <Link
+                  href={authorSlug ? `/team/${authorSlug}` : "/team"}
+                  className="hover:text-[#10B981] transition-colors"
+                >
+                  {post.author.name}
+                </Link>
+              </h4>
+              <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-[11px] font-semibold whitespace-nowrap">
+                {post.author.role}
+              </span>
             </div>
           </div>
 
-          {/* Publishing Date, Read Time & Team Link (Responsive & Unbreakable) */}
-          <div className="pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs text-[#94A3B8]">
+          {/* Full-width Description taking space from left to right */}
+          <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed w-full">
+            {post.author.bio || `${post.author.role} at LOAH.`}
+          </p>
+
+          {/* Publishing Date, Read Time & Profile Link */}
+          <div className="pt-4 border-t border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-[#94A3B8]">
             <div className="flex items-center gap-3 sm:gap-4">
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
                 <Calendar className="w-3.5 h-3.5 opacity-70" />
@@ -227,9 +228,9 @@ export function JournalLayout({
 
             <Link
               href={authorSlug ? `/team/${authorSlug}` : "/team"}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#10B981] hover:underline whitespace-nowrap shrink-0 group"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:underline whitespace-nowrap group self-start sm:self-auto pt-1 sm:pt-0"
             >
-              <span>View Team Profile</span>
+              <span>Profile</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
