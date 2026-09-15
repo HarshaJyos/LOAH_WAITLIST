@@ -228,7 +228,7 @@ export function JournalLayout({
 
             <Link
               href={authorSlug ? `/team/${authorSlug}` : "/team"}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:underline whitespace-nowrap group self-start sm:self-auto pt-1 sm:pt-0"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:underline whitespace-nowrap group self-end sm:self-auto pt-1 sm:pt-0"
             >
               <span>Profile</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
