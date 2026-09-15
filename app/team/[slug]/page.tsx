@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { TeamSocialLinks } from "@/components/team/TeamSocialLinks";
 import { getTeamMember, getAllTeamMembers } from "@/lib/team-data";
 import { getAllJournalPosts } from "@/lib/journal-data";
 import {
@@ -115,7 +116,7 @@ export default async function TeamMemberPage({
             </div>
 
             {/* Header Details */}
-            <div className="space-y-3 text-center sm:text-left flex-1">
+            <div className="space-y-3.5 text-center sm:text-left flex-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold border border-[#10B981]/30">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{member.role}</span>
@@ -130,9 +131,20 @@ export default async function TeamMemberPage({
               </p>
 
               {member.location && (
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-[#94A3B8] pt-1">
+                <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-[#94A3B8]">
                   <MapPin className="w-3.5 h-3.5 text-[#10B981]" />
                   <span>{member.location}</span>
+                </div>
+              )}
+
+              {/* Social Media Links (Rendered only if provided) */}
+              {member.socials && (
+                <div className="pt-2 flex justify-center sm:justify-start">
+                  <TeamSocialLinks
+                    socials={member.socials}
+                    memberName={member.name}
+                    variant="pill"
+                  />
                 </div>
               )}
             </div>
@@ -154,22 +166,27 @@ export default async function TeamMemberPage({
             ))}
           </div>
 
-          {/* Focus Areas */}
+          {/* Focus Areas as an Ordered List */}
           {member.focusAreas && member.focusAreas.length > 0 && (
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3 pt-4">
               <h3 className="font-heading font-semibold text-sm text-[#94A3B8] uppercase tracking-wider">
                 Focus Areas at LOAH
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <ol className="space-y-2.5 font-body list-none p-0 m-0">
                 {member.focusAreas.map((area, idx) => (
-                  <span
+                  <li
                     key={idx}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#161F2E] border border-white/10 text-xs sm:text-sm text-[#F8FAFC] font-medium"
+                    className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-xl bg-[#161F2E]/60 border border-white/[0.08] hover:border-[#10B981]/30 transition-colors"
                   >
-                    {area}
-                  </span>
+                    <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#10B981]/15 text-[#10B981] font-mono font-bold text-xs shrink-0 border border-[#10B981]/30">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm sm:text-base text-[#E2E8F0] font-medium">
+                      {area}
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           )}
         </section>

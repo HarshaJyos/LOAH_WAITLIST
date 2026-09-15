@@ -1,3 +1,17 @@
+export interface TeamSocials {
+  twitter?: string;
+  x?: string;
+  linkedin?: string;
+  instagram?: string;
+  youtube?: string;
+  github?: string;
+  website?: string;
+  threads?: string;
+  bluesky?: string;
+  tiktok?: string;
+  email?: string;
+}
+
 export interface TeamMember {
   slug: string;
   name: string;
@@ -7,10 +21,5 @@ export interface TeamMember {
   story: string[];
   focusAreas: string[];
   location?: string;
-  socials?: {
-    twitter?: string;
-    linkedin?: string;
-    github?: string;
-    email?: string;
-  };
+  socials?: TeamSocials;
 }

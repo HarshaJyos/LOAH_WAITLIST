@@ -20,8 +20,12 @@ export const teamMembers: TeamMember[] = [
       "Community & Build Logs",
     ],
     socials: {
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+      youtube: "https://youtube.com",
+      github: "https://github.com",
+      email: "pavan@loah.app",
     },
   },
 ];

@@ -6,13 +6,13 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { TeamSocialLinks } from "@/components/team/TeamSocialLinks";
 import { getAllTeamMembers } from "@/lib/team-data";
 import {
   ArrowLeft,
   Users,
   Sparkles,
   ArrowRight,
-  HeartHandshake,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default function TeamDirectoryPage() {
           {members.map((member) => (
             <article
               key={member.slug}
-              className="group p-6 sm:p-8 rounded-3xl bg-[#161F2E]/80 border border-white/10 hover:border-[#10B981]/50 transition-all duration-200 backdrop-blur-sm shadow-xl flex flex-col justify-between"
+              className="group p-6 sm:p-8 rounded-3xl bg-[#161F2E]/80 border border-white/10 hover:border-[#10B981]/50 transition-all duration-200 backdrop-blur-sm shadow-xl flex flex-col justify-between space-y-5"
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
@@ -90,9 +90,20 @@ export default function TeamDirectoryPage() {
                 <p className="font-body text-sm text-[#94A3B8] leading-relaxed">
                   {member.shortBio}
                 </p>
+
+                {/* Social links on directory card */}
+                {member.socials && (
+                  <div className="pt-1">
+                    <TeamSocialLinks
+                      socials={member.socials}
+                      memberName={member.name}
+                      variant="compact"
+                    />
+                  </div>
+                )}
               </div>
 
-              <div className="pt-6 mt-4 border-t border-white/[0.06] flex items-center justify-between">
+              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
                 <span className="text-xs text-[#94A3B8]">
                   {member.focusAreas[0]}
                 </span>
