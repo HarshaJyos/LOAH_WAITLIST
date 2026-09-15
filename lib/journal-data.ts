@@ -9,6 +9,13 @@ const pageChunks: Record<number, JournalPageChunk> = {
   2: page2Data as JournalPageChunk,
 };
 
+export type JournalSortOption =
+  | "newest"
+  | "oldest"
+  | "shortest"
+  | "longest"
+  | "alphabetical";
+
 /**
  * Returns the manifest metadata (total pages, categories, types)
  */
@@ -40,6 +47,11 @@ export function getAllJournalPosts(): JournalPostMeta[] {
     }
   }
 
+  // Fallback: If page-1 has posts but manifest has 0
+  if (allPosts.length === 0 && page1Data && (page1Data as JournalPageChunk).posts) {
+    allPosts.push(...(page1Data as JournalPageChunk).posts);
+  }
+
   return allPosts;
 }
 
@@ -52,7 +64,138 @@ export function getPostBySlug(slug: string): JournalPostMeta | undefined {
 }
 
 /**
- * Filters and searches posts across all fields
+ * Extract all unique tags across all posts with their occurrence counts
+ */
+export function getAllJournalTags(): { tag: string; count: number }[] {
+  const posts = getAllJournalPosts();
+  const counts: Record<string, number> = {};
+
+  posts.forEach((post) => {
+    if (post.tags) {
+      post.tags.forEach((t) => {
+        counts[t] = (counts[t] || 0) + 1;
+      });
+    }
+  });
+
+  return Object.entries(counts).map(([tag, count]) => ({ tag, count }));
+}
+
+/**
+ * Comprehensive Flipkart-style filter & sorting engine
+ */
+export function filterAndSortPosts(
+  posts: JournalPostMeta[],
+  {
+    query = "",
+    categories = [],
+    types = [],
+    tags = [],
+    author = "",
+    sortBy = "newest",
+  }: {
+    query?: string;
+    categories?: string[];
+    types?: string[];
+    tags?: string[];
+    author?: string;
+    sortBy?: JournalSortOption;
+  }
+): JournalPostMeta[] {
+  const cleanQuery = query.trim().toLowerCase();
+
+  const filtered = posts.filter((post) => {
+    // 1. Author Filter (if specified)
+    if (author && author !== "All") {
+      const authorMatch =
+        post.author.name.toLowerCase().includes(author.toLowerCase()) ||
+        post.author.avatar.toLowerCase().includes(author.toLowerCase());
+      if (!authorMatch) return false;
+    }
+
+    // 2. Category Filter (multi-select)
+    if (categories.length > 0 && !categories.includes("All")) {
+      const matchCat = categories.some(
+        (cat) => post.category.toLowerCase() === cat.toLowerCase()
+      );
+      if (!matchCat) return false;
+    }
+
+    // 3. Type Filter (multi-select)
+    if (types.length > 0 && !types.includes("All Types")) {
+      const matchType = types.some(
+        (t) => post.type.toLowerCase() === t.toLowerCase()
+      );
+      if (!matchType) return false;
+    }
+
+    // 4. Tags Filter (multi-select)
+    if (tags.length > 0) {
+      const hasMatchingTag = tags.some((selectedTag) =>
+        post.tags.some((t) => t.toLowerCase() === selectedTag.toLowerCase())
+      );
+      if (!hasMatchingTag) return false;
+    }
+
+    // 5. Full text search query
+    if (cleanQuery) {
+      const matchTitle = post.title.toLowerCase().includes(cleanQuery);
+      const matchExcerpt = post.excerpt.toLowerCase().includes(cleanQuery);
+      const matchCategory = post.category.toLowerCase().includes(cleanQuery);
+      const matchType = post.type.toLowerCase().includes(cleanQuery);
+      const matchAuthor = post.author.name.toLowerCase().includes(cleanQuery);
+      const matchTags = post.tags.some((tag) =>
+        tag.toLowerCase().includes(cleanQuery)
+      );
+
+      if (
+        !matchTitle &&
+        !matchExcerpt &&
+        !matchCategory &&
+        !matchType &&
+        !matchAuthor &&
+        !matchTags
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  // Sorting
+  filtered.sort((a, b) => {
+    if (sortBy === "newest") {
+      const dateA = new Date(a.isoDate || a.publishedAt).getTime();
+      const dateB = new Date(b.isoDate || b.publishedAt).getTime();
+      return dateB - dateA;
+    }
+    if (sortBy === "oldest") {
+      const dateA = new Date(a.isoDate || a.publishedAt).getTime();
+      const dateB = new Date(b.isoDate || b.publishedAt).getTime();
+      return dateA - dateB;
+    }
+    if (sortBy === "shortest") {
+      const aTime = parseInt(a.readTime, 10) || 0;
+      const bTime = parseInt(b.readTime, 10) || 0;
+      return aTime - bTime;
+    }
+    if (sortBy === "longest") {
+      const aTime = parseInt(a.readTime, 10) || 0;
+      const bTime = parseInt(b.readTime, 10) || 0;
+      return bTime - aTime;
+    }
+    if (sortBy === "alphabetical") {
+      return a.title.localeCompare(b.title);
+    }
+    return 0;
+  });
+
+  return filtered;
+}
+
+/**
+ * Backward compatibility wrapper
  */
 export function filterPosts(
   posts: JournalPostMeta[],
@@ -66,33 +209,9 @@ export function filterPosts(
     type?: string;
   }
 ): JournalPostMeta[] {
-  const cleanQuery = query.trim().toLowerCase();
-
-  return posts.filter((post) => {
-    // 1. Category Filter
-    if (category !== "All" && post.category.toLowerCase() !== category.toLowerCase()) {
-      return false;
-    }
-
-    // 2. Type Filter
-    if (type !== "All Types" && post.type.toLowerCase() !== type.toLowerCase()) {
-      return false;
-    }
-
-    // 3. Search Query
-    if (cleanQuery) {
-      const matchTitle = post.title.toLowerCase().includes(cleanQuery);
-      const matchExcerpt = post.excerpt.toLowerCase().includes(cleanQuery);
-      const matchCategory = post.category.toLowerCase().includes(cleanQuery);
-      const matchType = post.type.toLowerCase().includes(cleanQuery);
-      const matchAuthor = post.author.name.toLowerCase().includes(cleanQuery);
-      const matchTags = post.tags.some((tag) => tag.toLowerCase().includes(cleanQuery));
-
-      if (!matchTitle && !matchExcerpt && !matchCategory && !matchType && !matchAuthor && !matchTags) {
-        return false;
-      }
-    }
-
-    return true;
+  return filterAndSortPosts(posts, {
+    query,
+    categories: category !== "All" ? [category] : [],
+    types: type !== "All Types" ? [type] : [],
   });
 }

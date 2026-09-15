@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { SensoryBackdrop } from "@/components/SensoryBackdrop";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { TeamSocialLinks } from "@/components/team/TeamSocialLinks";
+import { AuthorArticlesList } from "@/components/team/AuthorArticlesList";
 import { getTeamMember, getAllTeamMembers } from "@/lib/team-data";
 import { getAllJournalPosts } from "@/lib/journal-data";
 import {
@@ -191,70 +192,8 @@ export default async function TeamMemberPage({
           )}
         </section>
 
-        {/* Written Journals by Member */}
-        {authorPosts.length > 0 && (
-          <section className="space-y-6 mb-12">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#10B981] uppercase tracking-wider">
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Written by {member.name.split(" ")[0]}</span>
-              </div>
-              <h2 className="font-heading font-bold text-2xl text-[#F8FAFC]">
-                Published Journal Entries
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              {authorPosts.map((post) => (
-                <article
-                  key={post.id}
-                  className="group p-6 sm:p-7 rounded-2xl bg-[#161F2E]/80 border border-white/10 hover:border-[#10B981]/50 transition-all duration-200 backdrop-blur-sm shadow-xl hover:-translate-y-0.5 space-y-3"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] text-xs font-semibold">
-                      {post.category}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[#94A3B8] text-xs">
-                      {post.type}
-                    </span>
-                  </div>
-
-                  <h3 className="font-heading font-bold text-xl text-[#F8FAFC] group-hover:text-[#10B981] transition-colors leading-snug">
-                    <Link href={`/journal/${post.slug}`}>
-                      {post.title}
-                    </Link>
-                  </h3>
-
-                  <p className="font-body text-sm sm:text-base text-[#94A3B8] line-clamp-2 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="pt-3 border-t border-white/[0.04] flex items-center justify-between text-xs text-[#94A3B8]">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 opacity-70" />
-                        {post.publishedAt}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 text-[#34D399]">
-                        <Clock className="w-3.5 h-3.5" />
-                        {post.readTime}
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/journal/${post.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] group-hover:translate-x-1 transition-transform"
-                    >
-                      <span>Read Journal</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
+        {/* Written Journals by Member (Interactive, filterable, and paginated) */}
+        <AuthorArticlesList posts={authorPosts} authorName={member.name} />
 
         {/* Waitlist Box */}
         <div className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-[#161F2E] to-[#0F172A] border border-[#10B981]/30 text-center space-y-6 shadow-2xl">
