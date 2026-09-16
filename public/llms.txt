@@ -16,14 +16,14 @@ LOAH decouples the capture phase from the organization phase, allowing zero-fric
 
 ## Key Sections & Pages
 
-- [LOAH Waitlist & Early Beta Access](https://loah.app/): Join early testers for the private beta release.
-- [The LOAH Journals](https://loah.app/journal): Neurobiology teardowns, executive function research, and building-in-public architecture logs.
-- [Why Notes Apps Fail ADHD Brains](https://loah.app/journal/why-notes-apps-fail-adhd-brains): Teardown of ADHD working memory friction and the 3 simple rules to brain dump without overwhelm.
-- [LOAH Team & Builders](https://loah.app/team): Meet the neurodivergent engineers and strategists building LOAH.
-- [Pavan Duggirala — Product & Community Lead](https://loah.app/team/pavan-duggirala): Background, story, and focus areas of LOAH's Product Lead.
+- [LOAH Waitlist & Early Beta Access](https://www.loah.in/): Join early testers for the private beta release.
+- [The LOAH Journals](https://www.loah.in/journal): Neurobiology teardowns, executive function research, and building-in-public architecture logs.
+- [Why Notes Apps Fail ADHD Brains](https://www.loah.in/journal/why-notes-apps-fail-adhd-brains): Teardown of ADHD working memory friction and the 3 simple rules to brain dump without overwhelm.
+- [LOAH Team & Builders](https://www.loah.in/team): Meet the neurodivergent engineers and strategists building LOAH.
+- [Pavan Duggirala — Product & Community Lead](https://www.loah.in/team/pavan-duggirala): Background, story, and focus areas of LOAH's Product Lead.
 
 ## Optional & Extended Details
 
-- Full documentation and comprehensive research papers: [llms-full.txt](https://loah.app/llms-full.txt)
-- Sitemap: [sitemap.xml](https://loah.app/sitemap.xml)
-- Robots: [robots.txt](https://loah.app/robots.txt)
+- Full documentation and comprehensive research papers: [llms-full.txt](https://www.loah.in/llms-full.txt)
+- Sitemap: [sitemap.xml](https://www.loah.in/sitemap.xml)
+- Robots: [robots.txt](https://www.loah.in/robots.txt)

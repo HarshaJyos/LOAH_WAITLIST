@@ -23,7 +23,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://loah.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.loah.in";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -74,9 +74,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,

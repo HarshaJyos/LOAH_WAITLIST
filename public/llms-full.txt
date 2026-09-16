@@ -24,11 +24,11 @@ Every millisecond of latency or unnecessary UI element adds friction that can de
 
 ## 4. Platform Structure & Links
 
-- Home / Waitlist: https://loah.app/
-- Journals Hub: https://loah.app/journal
-- Feature Teardown: https://loah.app/journal/why-notes-apps-fail-adhd-brains
-- Team Directory: https://loah.app/team
-- Team Member (Pavan Duggirala): https://loah.app/team/pavan-duggirala
+- Home / Waitlist: https://www.loah.in/
+- Journals Hub: https://www.loah.in/journal
+- Feature Teardown: https://www.loah.in/journal/why-notes-apps-fail-adhd-brains
+- Team Directory: https://www.loah.in/team
+- Team Member (Pavan Duggirala): https://www.loah.in/team/pavan-duggirala
 
 ## 5. Team
 - Pavan Duggirala: Product & Community Lead at LOAH. Product strategist living with ADHD, exploring calm, zero-friction externalization systems.

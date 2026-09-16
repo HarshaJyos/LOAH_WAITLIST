@@ -25,7 +25,7 @@ export const teamMembers: TeamMember[] = [
       instagram: "https://instagram.com",
       youtube: "https://youtube.com",
       github: "https://github.com",
-      email: "pavan@loah.app",
+      email: "pavan@loah.in",
     },
   },
 ];

@@ -8,7 +8,7 @@ interface JournalJsonLdProps {
 }
 
 export function JournalJsonLd({ post, faqs, url }: JournalJsonLdProps) {
-  const postUrl = url || `https://loah.app/journal/${post.slug}`;
+  const postUrl = url || `https://www.loah.in/journal/${post.slug}`;
   const activeFaqs = faqs || post.faqs;
 
   const blogPostingSchema = {
@@ -20,7 +20,7 @@ export function JournalJsonLd({ post, faqs, url }: JournalJsonLdProps) {
     },
     "headline": post.title,
     "description": post.excerpt,
-    "image": post.image ? `https://loah.app${post.image}` : "https://loah.app/og-journal.png",
+    "image": post.image ? `https://www.loah.in${post.image}` : "https://www.loah.in/og-journal.png",
     "datePublished": post.isoDate,
     "dateModified": post.isoDate,
     "author": {
@@ -31,10 +31,10 @@ export function JournalJsonLd({ post, faqs, url }: JournalJsonLdProps) {
     "publisher": {
       "@type": "Organization",
       "name": "LOAH",
-      "url": "https://loah.app",
+      "url": "https://www.loah.in",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://loah.app/logo.png",
+        "url": "https://www.loah.in/favicon.ico",
       },
     },
     "articleSection": post.category,

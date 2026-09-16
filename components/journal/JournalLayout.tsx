@@ -78,18 +78,18 @@ export function JournalLayout({
       "@type": "Person",
       name: post.author.name,
       jobTitle: post.author.role,
-      url: `https://loah.app/team/${authorSlug}`,
+      url: `https://www.loah.in/team/${authorSlug}`,
     },
     publisher: {
       "@type": "Organization",
       name: "LOAH",
-      url: "https://loah.app",
+      url: "https://www.loah.in",
     },
     articleSection: post.category,
     keywords: post.tags?.join(", "),
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://loah.app/journal/${post.slug}`,
+      "@id": `https://www.loah.in/journal/${post.slug}`,
     },
   };
 

@@ -3,7 +3,7 @@ import { getAllJournalPosts } from "@/lib/journal-data";
 import { getAllTeamMembers } from "@/lib/team-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://loah.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.loah.in";
 
   // Static core routes
   const staticRoutes: MetadataRoute.Sitemap = [

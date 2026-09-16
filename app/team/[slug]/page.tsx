@@ -83,11 +83,11 @@ export default async function TeamMemberPage({
       name: member.name,
       jobTitle: member.role,
       description: member.shortBio,
-      image: `https://loah.app${member.avatar}`,
+      image: `https://www.loah.in${member.avatar}`,
       worksFor: {
         "@type": "Organization",
         name: "LOAH",
-        url: "https://loah.app",
+        url: "https://www.loah.in",
       },
       sameAs: socialUrls,
     },
